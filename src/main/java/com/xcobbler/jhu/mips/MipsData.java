@@ -2,8 +2,8 @@ package com.xcobbler.jhu.mips;
 
 import java.util.List;
 
-public class MipsData {
-  int wordSize = 32;
-  List<String> cells;
-
+public class MipsData extends MipsWords {
+  public MipsData(int wordSize, List<String> words) {
+    super(wordSize, words);
+  }
 }
