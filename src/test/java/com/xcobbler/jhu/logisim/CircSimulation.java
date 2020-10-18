@@ -72,7 +72,6 @@ public class CircSimulation {
       Set<Component> nonwires = circ.getNonWires();
 
       List<Component> rams = new ArrayList<Component>();
-      List<Component> regs = new ArrayList<Component>();
 
       if (nonwires != null) {
         for (Component c : nonwires) {

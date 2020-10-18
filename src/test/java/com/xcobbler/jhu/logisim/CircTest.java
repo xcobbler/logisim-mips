@@ -18,13 +18,48 @@ import com.xcobbler.jhu.mips.MipsProgram;
 public class CircTest {
   //@formatter:off
   @Parameterized.Parameters(name = "{index} - {0}")
-  public static Collection<Object[]> primeNumbers() {
+  public static Collection<Object[]> testCases() {
     return Arrays.asList(new Object[][] {
       test("addi",
           program(
-              i("001000", T0, T1, "0000000000000001")
+              i("001000", ZERO, T1, "0000000000000001")
               ),
-          reg("t1", 1))
+          reg("t1", 1)),
+      test("addi addi add",
+          program(
+              i("001000", ZERO, T0, "0000000000000001"),
+              i("001000", ZERO, T1, "0000000000000010"),
+              r("000000", T0, T1, T2, "00000", "100000")
+              ),
+          reg("t2", 3)),
+      test("addi addi and",
+          program(
+              i("001000", ZERO, T0, "0000000000000111"),
+              i("001000", ZERO, T1, "0000000000000011"),
+              r("000000", T0, T1, T2, "00000", "100100")
+              ),
+          reg("t2", 3)),
+      test("addi addi or",
+          program(
+              i("001000", ZERO, T0, "0000000000000111"),
+              i("001000", ZERO, T1, "0000000000000011"),
+              r("000000", T0, T1, T2, "00000", "100101")
+              ),
+          reg("t2", 7)),
+      test("addi addi sub",
+          program(
+              i("001000", ZERO, T0, "0000000000000111"),
+              i("001000", ZERO, T1, "0000000000000011"),
+              r("000000", T0, T1, T2, "00000", "100010")
+              ),
+          reg("t2", 4)),
+      test("addi addi nor",
+          program(
+              i("001000", ZERO, T0, "1111111111111100"),
+              i("001000", ZERO, T1, "0000000000000100"),
+              r("000000", T0, T1, T2, "00000", "100111")
+              ),
+          reg("t2", 3))
         });
   }
   //@formatter:on
@@ -114,6 +149,7 @@ public class CircTest {
     this.checks = checks;
   }
   
+  private static final String ZERO = "00000";
   private static final String T0 = "01000";
   private static final String T1 = "01001";
   private static final String T2 = "01010";
