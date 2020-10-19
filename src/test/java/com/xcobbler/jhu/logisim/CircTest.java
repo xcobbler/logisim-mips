@@ -24,14 +24,16 @@ public class CircTest {
           program(
               i("001000", ZERO, T1, "0000000000000001")
               ),
-          reg("t1", 1)),
+          reg("t1", 1),
+          reg("pc", 1)),
       test("addi addi add",
           program(
               i("001000", ZERO, T0, "0000000000000001"),
               i("001000", ZERO, T1, "0000000000000010"),
               r("000000", T0, T1, T2, "00000", "100000")
               ),
-          reg("t2", 3)),
+          reg("t2", 3),
+          reg("pc", 3)),
       test("addi addi and",
           program(
               i("001000", ZERO, T0, "0000000000000111"),
@@ -78,13 +80,30 @@ public class CircTest {
 
     sim.printRegisters();
 
+    String err = "";
+
     for (Check c : checks) {
       if (c instanceof RegCheck) {
         int actual = sim.getValue(((RegCheck) c).getRegName());
-        Assert.assertEquals(((RegCheck) c).getExpectedValue(), actual);
+        err += checkValue(((RegCheck) c).getRegName(), ((RegCheck) c).getExpectedValue(), actual);
+      } else {
+        err += "\nUnimplemented check: " + c.getClass().getSimpleName();
       }
     }
 
+    if (!err.isEmpty()) {
+      Assert.fail(err);
+    }
+  }
+
+  private static String checkValue(String context, int expected, int actual) {
+    String ret = "";
+
+    if (expected != actual) {
+      ret += "\nFor " + context + ", Expected value to be [" + expected + "], but got [" + actual + "]";
+    }
+
+    return ret;
   }
 
 //  public static long getUnsignedInt(int x) {
