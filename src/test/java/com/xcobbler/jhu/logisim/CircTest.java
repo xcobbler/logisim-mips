@@ -66,7 +66,7 @@ public class CircTest {
   }
   //@formatter:on
 
-  private static final String circPath = "C:\\Users\\xavie\\Google Drive\\jhu\\01_comp_arch\\project\\mips.circ";
+  private static final String circPath = "C:\\Users\\xavie\\Google Drive\\jhu\\01_comp_arch\\project\\logisim-mips\\mips.circ";
 
   @Test(timeout = 3000)
   public void test() {
