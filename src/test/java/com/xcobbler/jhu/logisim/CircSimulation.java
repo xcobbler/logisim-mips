@@ -60,7 +60,7 @@ public class CircSimulation {
     project = new Project(logFile);
 
     Simulator sim = project.getSimulator();
-
+    sim.setTickFrequency(4000);
 //    try {
 
       CircuitState state = project.getCircuitState();
@@ -184,17 +184,25 @@ public class CircSimulation {
     return program.getWords().size();
   }
 
-  public void run(StopCondition cond) {
+  public SimResult run(StopCondition cond) {
     // TODO should limit the program to like 3 seconds
+    long tickCount = 0;
+//    long prev = System.currentTimeMillis();
     while (true) {
       if (doTick.compareAndSet(true, false)) {
+        long end = System.currentTimeMillis();
+//        System.out.println("tick = " + (end - prev));
+        
         if (cond.shouldStop(this)) {
           break;
         }
+//        prev = System.currentTimeMillis();
         // perform step
         project.getSimulator().tick();
+        tickCount++;
       }
     }
+    return new SimResult((tickCount - 1) / 2);
   }
 
   public void reset(MipsProgram program, MipsData data) throws LoadFailedException {

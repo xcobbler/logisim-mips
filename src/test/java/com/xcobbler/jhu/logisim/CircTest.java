@@ -20,13 +20,7 @@ public class CircTest {
   @Parameterized.Parameters(name = "{index} - {0}")
   public static Collection<Object[]> testCases() {
     return Arrays.asList(new Object[][] {
-      test("addi",
-          program(
-              i("001000", ZERO, T1, "0000000000000001")
-              ),
-          reg("t1", 1),
-          reg("pc", 1)),
-      test("addi addi add",
+      test("add",
           program(
               i("001000", ZERO, T0, "0000000000000001"),
               i("001000", ZERO, T1, "0000000000000010"),
@@ -34,34 +28,131 @@ public class CircTest {
               ),
           reg("t2", 3),
           reg("pc", 3)),
-      test("addi addi and",
+      test("addi",
+          program(
+              i("001000", ZERO, T1, "0000000000000001")
+              ),
+          reg("t1", 1),
+          reg("pc", 1)),
+      test("and",
           program(
               i("001000", ZERO, T0, "0000000000000111"),
               i("001000", ZERO, T1, "0000000000000011"),
               r("000000", T0, T1, T2, "00000", "100100")
               ),
           reg("t2", 3)),
-      test("addi addi or",
+      test("beq",
+          program(
+              i("000100", ZERO, ZERO, "0000 0000 0000 0001"),
+              i("001000", T0, T0, "0000000000000010"),
+              i("001000", T0, T0, "0000000000000001")
+              ),
+          reg("t0", 1)),
+      test("beqne",
+          program(
+              i("000101", ZERO, T0, "0000 0000 0000 0001"),
+              i("001000", ZERO, T0, "0000000000000001"),
+              i("001000", T0, T0, "0000 0000 0000 0011"),
+              i("001000", T0, T0, "0000 0000 0000 0001")
+              ),
+          reg("t0", 1)),
+      test("j",
+          program(
+              j("000010", "0000 0000 0000 0000 0000 0001 00"),
+              i("001000", T0, T0, "0000 0000 0000 0001"),
+              i("001000", T0, T0, "0000 0000 0000 0011")
+              ),
+          reg("t0", 3)),
+//      test("jal TODO",
+//          program(
+//              j("000010", "0000 0000 0000 0000 0000 0001 00"),
+//              i("001000", ZERO, T0, "0000 0000 0000 0001"),
+//              i("001000", ZERO, T0, "0000 0000 0000 0011")
+//              ),
+//          reg("t0", 3)),
+      test("jr",
+          program(
+              i("001000", ZERO, T0, "0000 0000 0000 1100"),
+              r("000011", T0, ZERO, ZERO, "00000", "000100"),
+              i("001000", T1, T1, "0000 0000 0000 0001"),
+              i("001000", T1, T1, "0000 0000 0000 0011")
+              ),
+          reg("t1", 3)),
+//      test("jbu TODO",
+//          program(
+//              i("001000", ZERO, T0, "0000 0000 0000 1100"),
+//              r("000011", T0, ZERO, ZERO, "00000", "000100"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0001"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0011")
+//              ),
+//          reg("t1", 3)),
+//      test("lhu TODO",
+//          program(
+//              i("001000", ZERO, T0, "0000 0000 0000 1100"),
+//              r("000011", T0, ZERO, ZERO, "00000", "000100"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0001"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0011")
+//              ),
+//          reg("t1", 3)),
+//      test("ll TODO",
+//          program(
+//              i("001000", ZERO, T0, "0000 0000 0000 1100"),
+//              r("000011", T0, ZERO, ZERO, "00000", "000100"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0001"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0011")
+//              ),
+//          reg("t1", 3)),
+//      test("lui TODO",
+//          program(
+//              i("001000", ZERO, T0, "0000 0000 0000 1100"),
+//              r("000011", T0, ZERO, ZERO, "00000", "000100"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0001"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0011")
+//              ),
+//          reg("t1", 3)),
+//      test("lw TODO",
+//          program(
+//              i("001000", ZERO, T0, "0000 0000 0000 1100"),
+//              r("000011", T0, ZERO, ZERO, "00000", "000100"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0001"),
+//              i("001000", ZERO, T1, "0000 0000 0000 0011")
+//              ),
+//          data(
+//              "0000 0000 0000 0000 0000 0000 0000 0100"
+//              ),
+//          reg("t1", 3))
+      test("nor",
+          program(
+              i("001000", ZERO, T0, "1111111111111100"),
+              i("001000", ZERO, T1, "0000000000000100"),
+              r("000000", T0, T1, T2, "00000", "100111")
+              ),
+          reg("t2", 3)),
+      test("or",
           program(
               i("001000", ZERO, T0, "0000000000000111"),
               i("001000", ZERO, T1, "0000000000000011"),
               r("000000", T0, T1, T2, "00000", "100101")
               ),
           reg("t2", 7)),
-      test("addi addi sub",
+    //TODO ori
+    //TODO slt
+    //TODO slti
+    //TODO sltiu
+    //TODO sltu
+    //TODO sll
+    //TODO srl
+    //TODO sb
+    //TODO sc
+    //TODO sh
+    //TODO sw
+      test("sub",
           program(
               i("001000", ZERO, T0, "0000000000000111"),
               i("001000", ZERO, T1, "0000000000000011"),
               r("000000", T0, T1, T2, "00000", "100010")
               ),
-          reg("t2", 4)),
-      test("addi addi nor",
-          program(
-              i("001000", ZERO, T0, "1111111111111100"),
-              i("001000", ZERO, T1, "0000000000000100"),
-              r("000000", T0, T1, T2, "00000", "100111")
-              ),
-          reg("t2", 3))
+          reg("t2", 4))
         });
   }
   //@formatter:on
@@ -74,11 +165,26 @@ public class CircTest {
     if(this.data != null) {
       data = new MipsData(32, this.data);
     }
+
+//    long start = System.currentTimeMillis();
+//    System.out.println(testName + " before sim: " + new Date() + " " + start % 1000);
+
     CircSimulation sim = new CircSimulation(new File(circPath), new MipsProgram(32, program), data);
 
-    sim.run(new EndReached());
+    long end = System.currentTimeMillis();
+//    System.out.println(testName + " sim = " + (end - start));
+//    System.out.println(testName + " after sim: " + new Date() + " " + start % 1000);
 
-    sim.printRegisters();
+    SimResult res = sim.run(new EndReached());
+
+//    long rr = System.currentTimeMillis();
+//    System.out.println(testName + " after run: " + new Date() + " " + start % 1000);
+
+//    System.out.println(testName + " run = " + (rr - end));
+
+    System.out.println(this.testName + ": " + res.getCycles());
+
+//    sim.printRegisters();
 
     String err = "";
 
@@ -116,7 +222,7 @@ public class CircTest {
 
   // hex return
   private static String r(String opCode, String rs, String rt, String rd, String shamt, String funct) {
-    int bin = Integer.parseInt(opCode + rs + rt + rd + shamt + funct, 2);
+    int bin = Integer.parseInt((opCode + rs + rt + rd + shamt + funct).replace(" ", ""), 2);
     String hex = Integer.toString(bin, 16);
     while (hex.length() < 8) {
       hex = "0" + hex;
@@ -125,7 +231,7 @@ public class CircTest {
   }
 
   private static String i(String opCode, String rs, String rt, String i) {
-    int bin = Integer.parseInt(opCode + rs + rt + i, 2);
+    int bin = Integer.parseInt((opCode + rs + rt + i).replace(" ", ""), 2);
     String hex = Integer.toString(bin, 16);
     while (hex.length() < 8) {
       hex = "0" + hex;
@@ -133,6 +239,15 @@ public class CircTest {
     return hex;
   }
   
+  private static String j(String opCode, String address) {
+    int bin = Integer.parseInt((opCode + address).replace(" ", ""), 2);
+    String hex = Integer.toString(bin, 16);
+    while (hex.length() < 8) {
+      hex = "0" + hex;
+    }
+    return hex;
+  }
+
   private static Object[] test(String testName, List<String> program, Check check, Check... checks) {
     return test(testName, program, null, check, checks);
   }
