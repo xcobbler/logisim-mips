@@ -41,6 +41,12 @@ public class CircTest {
               r("000000", T0, T1, T2, "00000", "100100")
               ),
           reg("t2", 3)),
+      test("andi",
+          program(
+              i("001000", ZERO, T0, "0000000000000101"),
+              i("001100", T0, T1, "0000000000000011")
+              ),
+          reg("t1", 1)),
       test("beq",
           program(
               i("000100", ZERO, ZERO, "0000 0000 0000 0001"),
@@ -232,6 +238,9 @@ public class CircTest {
 
 //    long start = System.currentTimeMillis();
 //    System.out.println(testName + " before sim: " + new Date() + " " + start % 1000);
+    for (String s : program) {
+      System.out.println(s);
+    }
 
     CircSimulation sim = new CircSimulation(new File(circPath), new MipsProgram(32, program), data);
 
