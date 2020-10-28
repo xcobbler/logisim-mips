@@ -56,8 +56,8 @@ public class CircTest {
           reg("t0", 1)),
       test("beqne",
           program(
-              i("000101", ZERO, T0, "0000 0000 0000 0001"),
               i("001000", ZERO, T0, "0000000000000001"),
+              i("000101", ZERO, T0, "0000 0000 0000 0001"),
               i("001000", T0, T0, "0000 0000 0000 0011"),
               i("001000", T0, T0, "0000 0000 0000 0001")
               ),
@@ -231,6 +231,7 @@ public class CircTest {
 
   @Test(timeout = 3000)
   public void test() {
+    System.out.println("\nstart " + this.testName + ":");
     MipsData data = null;
     if(this.data != null) {
       data = new MipsData(32, this.data);
@@ -255,7 +256,7 @@ public class CircTest {
 
 //    System.out.println(testName + " run = " + (rr - end));
 
-    System.out.println(this.testName + ": " + res.getCycles());
+    System.out.println("end " + this.testName + ": " + res.getCycles());
 
 //    sim.printRegisters();
 
