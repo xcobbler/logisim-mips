@@ -224,7 +224,16 @@ public class CircTest {
     //TODO sb
     //TODO sc
     //TODO sh
-    //TODO sw
+      test("sw",
+          program(
+              i("001000", ZERO, T0, "0000000000000100"),
+              i("101011", ZERO, T0, "0000000000000000"),
+              i("100011", ZERO, T1, "0000 0000 0000 0000")
+              ),
+          data(
+              "0000 0000 0000 0000 0000 0000 0000 0000"
+              ),
+          reg("t1", 4)),
       test("sub",
           program(
               i("001000", ZERO, T0, "0000000000000111"),
