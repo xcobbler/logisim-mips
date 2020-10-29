@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -116,17 +117,25 @@ public class CircTest {
 //              i("001000", ZERO, T1, "0000 0000 0000 0011")
 //              ),
 //          reg("t1", 3)),
-//      test("lw TODO",
-//          program(
-//              i("001000", ZERO, T0, "0000 0000 0000 1100"),
-//              r("000011", T0, ZERO, ZERO, "00000", "000100"),
-//              i("001000", ZERO, T1, "0000 0000 0000 0001"),
-//              i("001000", ZERO, T1, "0000 0000 0000 0011")
-//              ),
-//          data(
-//              "0000 0000 0000 0000 0000 0000 0000 0100"
-//              ),
-//          reg("t1", 3))
+      test("lw - 0 from 0 offset",
+          program(
+              i("100011", T0, T1, "0000 0000 0000 0000")
+              ),
+          data(
+              "0000 0000 0000 0000 0000 0000 0000 0100"
+              ),
+          reg("t1", 4)),
+      test("lw - 1 from 1 offset",
+          program(
+              i("001000", ZERO, T0, "0000 0000 0000 0001"),
+              i("100011", T0, T1, "0000 0000 0000 0001")
+              ),
+          data(
+              "0000 0000 0000 0000 0000 0000 0000 0100",
+              "0000 0000 0000 0000 0000 0000 0000 1000",
+              "0000 0000 0000 0000 0000 0000 0001 0000"
+              ),
+          reg("t1", 16)),
       test("nor",
           program(
               i("001000", ZERO, T0, "1111111111111100"),
@@ -229,7 +238,8 @@ public class CircTest {
 
   private static final String circPath = "C:\\Users\\xavie\\Google Drive\\jhu\\01_comp_arch\\project\\logisim-mips\\mips.circ";
 
-  @Test(timeout = 3000)
+  @Test
+//  @Test(timeout = 3000)
   public void test() {
     System.out.println("\nstart " + this.testName + ":");
     MipsData data = null;
@@ -296,8 +306,17 @@ public class CircTest {
 
   // hex return
   private static String r(String opCode, String rs, String rt, String rd, String shamt, String funct) {
-    int bin = Integer.parseInt((opCode + rs + rt + rd + shamt + funct).replace(" ", ""), 2);
-    String hex = Integer.toString(bin, 16);
+    long bin = Long.parseLong((opCode + rs + rt + rd + shamt + funct).replace(" ", ""), 2);
+    String hex = Long.toString(bin, 16);
+    while (hex.length() < 8) {
+      hex = "0" + hex;
+    }
+    return hex;
+  }
+
+  private static String bin2hex(String binStr) {
+    long bin = Long.parseLong(binStr.replace(" ", ""), 2);
+    String hex = Long.toString(bin, 16);
     while (hex.length() < 8) {
       hex = "0" + hex;
     }
@@ -305,8 +324,8 @@ public class CircTest {
   }
 
   private static String i(String opCode, String rs, String rt, String i) {
-    int bin = Integer.parseInt((opCode + rs + rt + i).replace(" ", ""), 2);
-    String hex = Integer.toString(bin, 16);
+    long bin = Long.parseLong((opCode + rs + rt + i).replace(" ", ""), 2);
+    String hex = Long.toString(bin, 16);
     while (hex.length() < 8) {
       hex = "0" + hex;
     }
@@ -314,8 +333,8 @@ public class CircTest {
   }
   
   private static String j(String opCode, String address) {
-    int bin = Integer.parseInt((opCode + address).replace(" ", ""), 2);
-    String hex = Integer.toString(bin, 16);
+    long bin = Long.parseLong((opCode + address).replace(" ", ""), 2);
+    String hex = Long.toString(bin, 16);
     while (hex.length() < 8) {
       hex = "0" + hex;
     }
@@ -337,12 +356,21 @@ public class CircTest {
     return Arrays.asList(word);
   }
 
+  /**
+   * @param word in hex format
+   */
   private static List<String> program(String... word) {
     return Arrays.asList(word);
   }
 
+  /**
+   * 
+   * @param word in binary
+   */
   private static List<String> data(String... word) {
-    return Arrays.asList(word);
+    List<String> ret = new ArrayList<String>(Arrays.asList(word));
+
+    return ret.stream().map(s -> bin2hex(s)).collect(Collectors.toList());
   }
 
   private String testName;
