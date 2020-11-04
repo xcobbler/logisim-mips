@@ -81,7 +81,7 @@ public class CircTest {
       test("jr",
           program(
               i("001000", ZERO, T0, "0000 0000 0000 0011"),
-              r("000011", T0, ZERO, ZERO, "00000", "000100"),
+              r("000000", T0, ZERO, ZERO, "00000", "000100"),
               i("001000", T1, T1, "0000 0000 0000 0001"),
               i("001000", T1, T1, "0000 0000 0000 0011")
               ),
@@ -248,8 +248,8 @@ public class CircTest {
 
   private static final String circPath = "C:\\Users\\xavie\\Google Drive\\jhu\\01_comp_arch\\project\\logisim-mips\\mips.circ";
 
-  @Test
-//  @Test(timeout = 3000)
+//  @Test
+  @Test(timeout = 3000)
   public void test() {
     System.out.println("\nstart " + this.testName + ":");
     MipsData data = null;
