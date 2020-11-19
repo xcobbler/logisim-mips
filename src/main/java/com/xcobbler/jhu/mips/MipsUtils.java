@@ -160,6 +160,9 @@ public class MipsUtils {
   }
 
   public static String hex16ToBin(String hex16) {
+    if (hex16.length() > 4) {
+      hex16 = hex16.substring(hex16.length() - 4, hex16.length());
+    }
     String ret = Long.toBinaryString(Long.parseLong(hex16, 16));
     while (ret.length() < 16) {
       ret = "0" + ret;
