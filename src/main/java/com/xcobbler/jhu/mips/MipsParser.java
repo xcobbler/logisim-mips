@@ -32,8 +32,8 @@ public class MipsParser {
     PARSERS.put("addi", COMMON_I);
     PARSERS.put("addiu", COMMON_I);
     PARSERS.put("andi", COMMON_I);
-    PARSERS.put("beq", COMMON_I);
-    PARSERS.put("bne", COMMON_I);
+    PARSERS.put("beq", new BranchParser());
+    PARSERS.put("bne", new BranchParser());
 //    PARSERS.put("lbu", COMMON_I);
 //    PARSERS.put("lhu", COMMON_I);
 //    PARSERS.put("ll", COMMON_I);
@@ -78,8 +78,8 @@ public class MipsParser {
       }
       String first = parts.get(0);
       if (parsingText) {
-        if (first.endsWith(":")) {
-          textLabels.put(first.substring(0, first.length() - 1), lineNum);
+        if (line.endsWith(":")) {
+          textLabels.put(line.substring(0, line.length() - 1), lineNum);
           continue;
         } else if (".text".equals(first)) {
           continue;
@@ -96,6 +96,7 @@ public class MipsParser {
       lineNum++;
     }
 
+    lineNum = 0;
     parsingText = true;
     // parse text with labels
     for (String rawLine : lines) {
@@ -120,13 +121,14 @@ public class MipsParser {
         } else {
           Parser parser = PARSERS.get(first);
           if (parser != null) {
-            String instr = parser.parse(parts, textLabels, data);
+            String instr = parser.parse(lineNum, parts, textLabels, data);
             programWords.add(instr);
           } else {
             throw new ParseException("There is no parser configured for: " + first);
           }
         }
       }
+      lineNum++;
     }
     MipsProgram prog = new MipsProgram(32, programWords);
     MipsData dat = new MipsData(32, dataWords);

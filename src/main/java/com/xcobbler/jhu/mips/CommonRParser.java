@@ -4,21 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 public class CommonRParser implements Parser {
-//  private String funct;
-//  /**
-//   * 
-//   * @param funct - 6 bit hex
-//   */
-//  public CommonRParser(String funct) {
-//    this.funct = funct;
-//  }
 
   /**
    * 
    * @param parts
    * @return the hex instruction with no "0x" prefix
    */
-  public String parse(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String parse(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     return MipsUtils.binariesToHex32(
         MipsUtils.hex6ToBin(getOpCode(parts)),
         MipsUtils.hex5ToBin(getRs(parts, instrLabels, data)),

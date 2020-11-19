@@ -10,12 +10,12 @@ public class CommonIParser implements Parser {
    * @param parts
    * @return the hex instruction with no "0x" prefix
    */
-  public String parse(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String parse(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     return MipsUtils.binariesToHex32(
         MipsUtils.hex6ToBin(getOpCode(parts)),
         MipsUtils.hex5ToBin(getRs(parts, instrLabels, data)),
         MipsUtils.hex5ToBin(getRt(parts, instrLabels, data)),
-        MipsUtils.hex16ToBin(getImmediate(parts, instrLabels, data))
+        MipsUtils.hex16ToBin(getImmediate(lineNum, parts, instrLabels, data))
         );
   }
 
@@ -37,7 +37,7 @@ public class CommonIParser implements Parser {
     return Integer.toString(rsNum, 16);
   }
 
-  public String getImmediate(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getImmediate(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     String i = parts.get(3);
     return Long.toHexString(Long.parseLong(i, 10));
   }

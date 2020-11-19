@@ -11,7 +11,7 @@ public class LoadWordParser extends CommonIParser {
   }
 
   @Override
-  public String getImmediate(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getImmediate(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     String i = parts.get(2);
     Data dataVal = data.get(i);
     if (dataVal != null) {
