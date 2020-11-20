@@ -46,6 +46,8 @@ public class MipsParser {
 //    PARSERS.put("sc", COMMON_I);
 //    PARSERS.put("sh", COMMON_I);
     PARSERS.put("sw", new LoadWordParser());
+
+    PARSERS.put("j", new JumpParser());
   }
 
   public MipsParserResult parse(String contents) {

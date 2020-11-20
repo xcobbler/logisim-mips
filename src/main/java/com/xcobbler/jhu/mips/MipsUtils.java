@@ -170,6 +170,17 @@ public class MipsUtils {
     return ret;
   }
 
+  public static String hex26ToBin(String hex26) {
+    if (hex26.length() > 7) {
+      hex26 = hex26.substring(hex26.length() - 4, hex26.length());
+    }
+    String ret = Long.toBinaryString(Long.parseLong(hex26, 16));
+    while (ret.length() < 26) {
+      ret = "0" + ret;
+    }
+    return ret;
+  }
+
   public static String binariesToHex32(String... parts) {
     String ret = "";
     for (String part : parts) {
@@ -185,6 +196,14 @@ public class MipsUtils {
   public static String decimalToHex32(String decimal) {
     String ret = Long.toHexString(Long.valueOf(decimal, 10));
     while (ret.length() < 8) {
+      ret = "0" + ret;
+    }
+    return ret;
+  }
+
+  public static String decimalToHex26(String decimal) {
+    String ret = Long.toHexString(Long.valueOf(decimal, 10));
+    while (ret.length() < 7) {
       ret = "0" + ret;
     }
     return ret;
