@@ -19,7 +19,7 @@ public class MipsParser {
     PARSERS.put("add", COMMON_R);
     PARSERS.put("addu", COMMON_R);
     PARSERS.put("and", COMMON_R);
-    PARSERS.put("jr", COMMON_R);
+    PARSERS.put("jr", new JumpRegisterParser());
     PARSERS.put("nor", COMMON_R);
     PARSERS.put("or", COMMON_R);
 //    PARSERS.put("slt", COMMON_R);
