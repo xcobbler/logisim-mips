@@ -81,6 +81,8 @@ public class MipsUtils {
 
   static {
     J_OPCODE.put("j", "02");
+    J_OPCODE.put("jal", "03");
+    J_OPCODE.put("jr", "08");
   }
 
   /**
@@ -135,7 +137,7 @@ public class MipsUtils {
    * @return hex value
    */
   public static String getJOpCode(String jInstr) {
-    String code = I_OPCODE.get(jInstr);
+    String code = J_OPCODE.get(jInstr);
     if (code != null) {
       return code;
     } else {

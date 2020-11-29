@@ -9,7 +9,7 @@ public class JumpParser implements Parser {
   public String parse(long lineNum, List<String> parts, Map<String, Integer> labels, Map<String, Data> data) {
     return MipsUtils.binariesToHex32(
         MipsUtils.hex6ToBin(getOpCode(parts)),
-        MipsUtils.hex26ToBin(getImmediate(lineNum, parts, labels, data))
+        MipsUtils.hex26ToBin(getAddress(lineNum, parts, labels, data))
         );
   }
 
@@ -17,7 +17,7 @@ public class JumpParser implements Parser {
     return "02";
   }
 
-  public String getImmediate(long lineNum, List<String> parts, Map<String, Integer> labels, Map<String, Data> data) {
+  public String getAddress(long lineNum, List<String> parts, Map<String, Integer> labels, Map<String, Data> data) {
     Integer j = labels.get(parts.get(1));
 
     if (j != null) {

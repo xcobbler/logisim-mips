@@ -48,6 +48,7 @@ public class MipsParser {
     PARSERS.put("sw", new LoadWordParser());
 
     PARSERS.put("j", new JumpParser());
+    PARSERS.put("jal", new JalParser());
   }
 
   public MipsParserResult parse(String contents) {

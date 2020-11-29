@@ -7,7 +7,15 @@ public class LoadWordParser extends CommonIParser {
   @Override
   public String getRs(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     // using $0 as base since our data memory starts at 0
-    return "00";
+    String i = parts.get(2);
+    Data dataVal = data.get(i);
+    if (dataVal != null) {
+      return "00";
+    } else if (i.contains("(") && i.contains(")")) {
+      String inner = i.substring(i.indexOf("(") + 1, i.indexOf(")")).trim();
+      return Integer.toHexString(MipsUtils.getRegisterNum(inner));
+    }
+    throw new ParseException("only accepting labels and offset registers");
   }
 
   @Override
@@ -17,8 +25,11 @@ public class LoadWordParser extends CommonIParser {
     if (dataVal != null) {
       int offset = dataVal.getOffset();
       return MipsUtils.decimalToHex16(String.valueOf(offset));
+    } else if (i.contains("(") && i.contains(")")) {
+      String offset = i.substring(0, i.indexOf("(")).trim();
+      return MipsUtils.decimalToHex16(offset);
     }
-    throw new ParseException("only accepting labels");
+    throw new ParseException("only accepting labels and offset registers");
   }
 
 }
