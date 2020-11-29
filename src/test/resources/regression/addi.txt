@@ -1,0 +1,5 @@
+.text
+addi $t0, $zero, 2
+
+.assert
+$t0 = 2
