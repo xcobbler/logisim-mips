@@ -51,6 +51,9 @@ public class MipsRegressionTest {
         List<String> lines = Arrays.asList(assertSection.split("\n")).stream().filter(s -> !s.trim().isEmpty())
             .collect(Collectors.toList());
         for (String line : lines) {
+          if (line.trim().isEmpty() || line.trim().startsWith("#")) {
+            continue;
+          }
           String[] parts = line.split("=");
           if (parts.length != 2) {
             throw new IllegalArgumentException("assert doesn't have exactly one equals sign: " + line);
@@ -73,7 +76,7 @@ public class MipsRegressionTest {
     return ret;
   }
 
-  @Test
+  @Test(timeout = 3000)
   public void test() {
     MipsParser parser = new MipsParser();
     MipsParserResult res = parser.parse(asmContents);

@@ -1,0 +1,15 @@
+.text
+	j main
+	test:
+		addi $s0, $s0, 1
+		
+		jr $ra
+	main:
+		jal test
+		jal test
+		
+		addi $s0, $s0, 1
+
+.assert
+#3 because we are not saving the registers
+$s0 = 3
