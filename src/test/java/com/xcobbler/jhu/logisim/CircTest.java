@@ -248,8 +248,8 @@ public class CircTest {
 
   private static final String circPath = "C:\\Users\\xavie\\Google Drive\\jhu\\01_comp_arch\\project\\logisim-mips\\mips.circ";
 
-//  @Test
-  @Test(timeout = 3000)
+  @Test
+//  @Test(timeout = 3000)
   public void test() {
     System.out.println("\nstart " + this.testName + ":");
     MipsData data = null;
@@ -271,6 +271,8 @@ public class CircTest {
 
     SimResult res = sim.run(new EndReached());
 
+//    int testReg = sim.getValue("test");
+//    System.out.println("testReg: " + testReg);
 //    long rr = System.currentTimeMillis();
 //    System.out.println(testName + " after run: " + new Date() + " " + start % 1000);
 

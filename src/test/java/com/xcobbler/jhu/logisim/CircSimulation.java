@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +19,7 @@ import com.cburch.logisim.circuit.CircuitState;
 import com.cburch.logisim.circuit.Simulator;
 import com.cburch.logisim.circuit.SimulatorEvent;
 import com.cburch.logisim.circuit.SimulatorListener;
+import com.cburch.logisim.circuit.SubcircuitFactory;
 import com.cburch.logisim.comp.Component;
 import com.cburch.logisim.comp.ComponentFactory;
 import com.cburch.logisim.data.Location;
@@ -72,12 +74,15 @@ public class CircSimulation {
       Set<Component> nonwires = circ.getNonWires();
 
       List<Component> rams = new ArrayList<Component>();
-
+//    System.out.println("start init");
+    // prevents loops - you only need to visit subcircuits once to get registers
+    Set<String> foundSubcircuits = new HashSet<String>();
       if (nonwires != null) {
         for (Component c : nonwires) {
 //          System.out.println("component = " + c);
-//          System.out.println("fac = " + c.getFactory());
+//        System.out.println("fac = " + c.getFactory());
           if (c.getFactory() != null) {
+//          System.out.println("factory = " + c.getFactory().getName());
             if ("RAM".equals(c.getFactory().getName())) {
               rams.add(c);
             } else if ("Register".equals(c.getFactory().getName())) {
@@ -91,10 +96,32 @@ public class CircSimulation {
                 throw new SimulationException("Ciruit has multiple clocks! first: " + l1 + "  second: " + l2);
               }
               clock = c;
+          } else if (c.getFactory() instanceof SubcircuitFactory) {
+            if (!foundSubcircuits.contains(c.getFactory().getName())) {
+              foundSubcircuits.add(c.getFactory().getName());
+              Circuit subcircuit = ((SubcircuitFactory) c.getFactory()).getSubcircuit();
+
+              Set<Component> nonWires2 = subcircuit.getNonWires();
+              for (Component c2 : nonWires2) {
+                if ("Register".equals(c2.getFactory().getName())) {
+                  Object label = state.getInstanceState(c2)
+                      .getAttributeValue(c2.getAttributeSet().getAttribute("label"));
+//                  System.out.println("nested reg = " + String.valueOf(label));
+                  registers.put(String.valueOf(label), c2);
+                }
+              }
+
+//              System.out.println();
+//              Instance inst = state.getInstanceState(c).getInstance();
+//              Attribute<?> source = inst.getAttributeSet().getAttribute("source");
+//              System.out.println();
+//            registers.put(String.valueOf(label), c);
             }
+          }
           }
         }
       }
+//    System.out.println("end init");
 
       if (rams.size() == 2) {
         // the RAM closest to the clock is assumed to the program RAM and the other is the data
