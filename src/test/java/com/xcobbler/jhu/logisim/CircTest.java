@@ -271,7 +271,7 @@ public class CircTest {
 
     SimResult res = sim.run(new EndReached());
 
-//    int testReg = sim.getValue("test");
+//    int testReg = sim.getValue("t2");
 //    System.out.println("testReg: " + testReg);
 //    long rr = System.currentTimeMillis();
 //    System.out.println(testName + " after run: " + new Date() + " " + start % 1000);

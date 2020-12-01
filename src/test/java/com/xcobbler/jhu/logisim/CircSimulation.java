@@ -39,6 +39,7 @@ public class CircSimulation {
   private AtomicBoolean doTick = new AtomicBoolean(true);
 
   private Map<String, Component> registers = new HashMap<String, Component>();
+  private Map<String, Component> circuitMap = new HashMap<String, Component>();
   private Project project;
 
 //  private List<File> tempFiles = new ArrayList<File>();
@@ -89,6 +90,7 @@ public class CircSimulation {
               Object label = state.getInstanceState(c).getAttributeValue(c.getAttributeSet().getAttribute("label"));
 
               registers.put(String.valueOf(label), c);
+//            circuitMap.put(String.valueOf(label), state);
             } else if("Clock".equals(c.getFactory().getName())) {
               if(clock != null) {
                 Location l1 = clock.getLocation();
@@ -108,6 +110,7 @@ public class CircSimulation {
                       .getAttributeValue(c2.getAttributeSet().getAttribute("label"));
 //                  System.out.println("nested reg = " + String.valueOf(label));
                   registers.put(String.valueOf(label), c2);
+                  circuitMap.put(String.valueOf(label), c);
                 }
               }
 
@@ -189,6 +192,9 @@ public class CircSimulation {
     Component reg = registers.get(name);
     if (reg != null) {
       Object data = project.getCircuitState().getData(reg);
+      if (data == null && circuitMap.containsKey(name)) {
+        data = ((CircuitState) project.getCircuitState().getData(circuitMap.get(name))).getData(reg);
+      }
 
       Object value = 0;
 
