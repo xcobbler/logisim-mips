@@ -8,6 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.xcobbler.jhu.mips.common.MipsUtils;
+import com.xcobbler.jhu.mips.common.ParseException;
+import com.xcobbler.jhu.mips.parser.BranchParser;
+import com.xcobbler.jhu.mips.parser.CommonIParser;
+import com.xcobbler.jhu.mips.parser.CommonRParser;
+import com.xcobbler.jhu.mips.parser.JalParser;
+import com.xcobbler.jhu.mips.parser.JumpParser;
+import com.xcobbler.jhu.mips.parser.JumpRegisterParser;
+import com.xcobbler.jhu.mips.parser.LoadWordParser;
+import com.xcobbler.jhu.mips.parser.Parser;
+import com.xcobbler.jhu.mips.parser.ShiftParser;
+
 public class MipsParser {
 
   private static final Map<String, Parser> PARSERS = new HashMap<String, Parser>();

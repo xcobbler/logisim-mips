@@ -1,4 +1,4 @@
-package com.xcobbler.jhu.mips;
+package com.xcobbler.jhu.mips.common;
 
 public class ParseException extends RuntimeException {
   private static final long serialVersionUID = 1L;

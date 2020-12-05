@@ -1,4 +1,4 @@
-package com.xcobbler.jhu.mips;
+package com.xcobbler.jhu.mips.common;
 
 import java.util.HashMap;
 import java.util.Map;

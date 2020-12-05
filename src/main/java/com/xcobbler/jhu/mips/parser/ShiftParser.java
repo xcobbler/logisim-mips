@@ -1,7 +1,10 @@
-package com.xcobbler.jhu.mips;
+package com.xcobbler.jhu.mips.parser;
 
 import java.util.List;
 import java.util.Map;
+
+import com.xcobbler.jhu.mips.Data;
+import com.xcobbler.jhu.mips.common.MipsUtils;
 
 public class ShiftParser extends CommonRParser {
 
