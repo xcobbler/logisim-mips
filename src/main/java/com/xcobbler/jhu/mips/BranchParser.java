@@ -7,7 +7,7 @@ public class BranchParser extends CommonIParser {
 
   // Branch instructions switch rs and rt
   @Override
-  public String getRs(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getRs(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     String rs = parts.get(1);
     // convert rs, rt, ect to register number
     Integer rsNum = MipsUtils.getRegisterNum(rs);
@@ -16,7 +16,7 @@ public class BranchParser extends CommonIParser {
 
   // Branch instructions switch rs and rt
   @Override
-  public String getRt(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getRt(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     String rt = parts.get(2);
     // convert rs, rt, ect to register number
     Integer rsNum = MipsUtils.getRegisterNum(rt);

@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public class LoadWordParser extends CommonIParser {
+
   @Override
-  public String getRs(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getRs(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     // using $0 as base since our data memory starts at 0
     String i = parts.get(2);
     Data dataVal = data.get(i);

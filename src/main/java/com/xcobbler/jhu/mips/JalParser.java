@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class JalParser extends CommonJParser {
 
+  @Override
   public String getAddress(long lineNum, List<String> parts, Map<String, Integer> labels, Map<String, Data> data) {
     Integer j = labels.get(parts.get(1));
 

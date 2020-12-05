@@ -6,28 +6,28 @@ import java.util.Map;
 public class JRParser extends CommonRParser {
 
   @Override
-  public String getRs(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getRs(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     Integer rsNum = MipsUtils.getRegisterNum(parts.get(1));
     return Integer.toString(rsNum, 16);
   }
 
   @Override
-  public String getRt(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getRt(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     return "00";
   }
 
   @Override
-  public String getRd(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getRd(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     return "00";
   }
 
   @Override
-  public String getShamt(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getShamt(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     return "00";
   }
 
   @Override
-  public String getFunct(List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
+  public String getFunct(long lineNum, List<String> parts, Map<String, Integer> instrLabels, Map<String, Data> data) {
     return "00";
   }
 }
