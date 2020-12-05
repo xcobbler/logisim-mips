@@ -136,6 +136,10 @@ public class MipsRegressionTest {
     MipsParser parser = new MipsParser();
     MipsParserResult res = parser.parse(asmContents);
 
+    System.out.println("\nstart: " + textName);
+    res.getProgram().getWords().stream().forEach(System.out::println);
+    System.out.println("end: " + textName);
+
     CircSimulation sim = new CircSimulation(new File("mips.circ"), res.getProgram(), res.getData());
 
     sim.run(new EndReached());

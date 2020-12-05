@@ -51,7 +51,7 @@ public class MipsUtils {
     R_FUNCTIONS.put("jr", "08");
     R_FUNCTIONS.put("nor", "27");
     R_FUNCTIONS.put("or", "25");
-//    R_FUNCTIONS.put("slt", "2a");
+    R_FUNCTIONS.put("slt", "2a");
 //    R_FUNCTIONS.put("sltu", "2b");
     R_FUNCTIONS.put("sll", "00");
     R_FUNCTIONS.put("srl", "02");
@@ -71,7 +71,7 @@ public class MipsUtils {
 //    I_OPCODE.put("lui", "0f");
     I_OPCODE.put("lw", "23");
     I_OPCODE.put("ori", "0d");
-//    I_OPCODE.put("slti", "0a");
+    I_OPCODE.put("slti", "0a");
 //    I_OPCODE.put("sltiu", "0b");
 //    I_OPCODE.put("sb", "28");
 //    I_OPCODE.put("sc", "38");

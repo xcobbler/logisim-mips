@@ -29,20 +29,20 @@ public class MipsParser {
 
   static {
     PARSERS.put("add", COMMON_R);
-    PARSERS.put("addu", COMMON_R);
+//    PARSERS.put("addu", COMMON_R);
     PARSERS.put("and", COMMON_R);
     PARSERS.put("jr", new JumpRegisterParser());
     PARSERS.put("nor", COMMON_R);
     PARSERS.put("or", COMMON_R);
-//    PARSERS.put("slt", COMMON_R);
+    PARSERS.put("slt", COMMON_R);
 //    PARSERS.put("sltu", COMMON_R);
     PARSERS.put("sll", SHIFT);
     PARSERS.put("srl", COMMON_R);
     PARSERS.put("sub", COMMON_R);
-    PARSERS.put("subu", COMMON_R);
+//    PARSERS.put("subu", COMMON_R);
 
     PARSERS.put("addi", COMMON_I);
-    PARSERS.put("addiu", COMMON_I);
+//    PARSERS.put("addiu", COMMON_I);
     PARSERS.put("andi", COMMON_I);
     PARSERS.put("beq", new BranchParser());
     PARSERS.put("bne", new BranchParser());
@@ -52,7 +52,7 @@ public class MipsParser {
 //    PARSERS.put("lui", COMMON_I);
     PARSERS.put("lw", new LoadWordParser());
     PARSERS.put("ori", COMMON_I);
-//    PARSERS.put("slti", COMMON_I);
+    PARSERS.put("slti", COMMON_I);
 //    PARSERS.put("sltiu", COMMON_I);
 //    PARSERS.put("sb", COMMON_I);
 //    PARSERS.put("sc", COMMON_I);
