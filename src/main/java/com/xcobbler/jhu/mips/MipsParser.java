@@ -145,6 +145,10 @@ public class MipsParser {
       }
       lineNum++;
     }
+    for (Map.Entry<String, Data> entry : data.entrySet()) {
+      dataWords.add(entry.getValue().getHex32());
+    }
+
     MipsProgram prog = new MipsProgram(32, programWords);
     MipsData dat = new MipsData(32, dataWords);
 

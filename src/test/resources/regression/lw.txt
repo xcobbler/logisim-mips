@@ -1,0 +1,7 @@
+.text
+	lw $t0, num
+.data
+	num: 10
+
+.assert
+$t0 = 10
