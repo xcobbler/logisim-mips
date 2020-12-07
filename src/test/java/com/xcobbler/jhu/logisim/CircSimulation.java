@@ -129,16 +129,24 @@ public class CircSimulation {
 //    System.out.println("end init");
 
     // set initial register values
-    // TODO ugly hack to force the sub circuit (register block) to have non-null data
+    // ugly hack to force the sub circuit (register block) to have non-null data
     // this may force the circuit to run 0x00000000 ... but in mips this is shift left logical of the zero register
     // and the result stored in the zero register (which should not be allowed)
-    project.getSimulator().tick();
-    try {
-      Thread.sleep(100);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    sim.removeSimulatorListener(listener);
+    sim.addSimulatorListener(listener);
+    boolean done = false;
+    while (true) {
+      if (doTick.compareAndSet(true, false)) {
+        if (done) {
+          break;
+        } else {
+          done = true;
+          project.getSimulator().tick();
+        }
+      }
     }
+    doTick.set(true);
+
     setValue("pc", PROGRAM_POINTER);
     setValue("gp", GLOBAL_POINTER);
     setValue("sp", STACK_POINTER);
@@ -156,8 +164,7 @@ public class CircSimulation {
       } else {
         throw new SimulationException("expected the number of RAM elements to 2, but got: " + rams.size());
       }
-      sim.removeSimulatorListener(listener);
-      sim.addSimulatorListener(listener);
+
 
 //      System.out.println("end");
 //    } finally {
