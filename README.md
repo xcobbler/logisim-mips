@@ -40,7 +40,7 @@ An Integration of MIPS, logisim, and testing.
 
 # Limitations
 1. logisim has a 24 bit limit for address for RAM components
-1. logisim doesn't support byte addressing only word addressing, so pc is incremented by one.
+1. logisim doesn't support byte addressing - only word addressing.
 
 # About this library
 1. The RAM closest to the clock will be used to hold the instructions
@@ -50,6 +50,7 @@ An Integration of MIPS, logisim, and testing.
 1. static data starts at 0 (uses the other RAM component)
 1. The program can only end by falling off the end of the program (no support for syscalls)
 1. jump addresses are restricted to 24 bits because of the logisim RAM address size limitation
+1. the pc is incremented by 1 (instead of 4)
 
 # Testing
 1. CircTest - tests machine code vs a logisim circuit execution
