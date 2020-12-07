@@ -51,6 +51,7 @@ An Integration of MIPS, logisim, and testing.
 1. The program can only end by falling off the end of the program (no support for syscalls)
 1. jump addresses are restricted to 24 bits because of the logisim RAM address size limitation
 1. the pc is incremented by 1 (instead of 4)
+1. logisim jar is located [here](https://sourceforge.net/projects/circuit/files/2.7.x/2.7.1/). update the pom.xml with the path to the jar file locally.
 
 # Testing
 1. CircTest - tests machine code vs a logisim circuit execution
