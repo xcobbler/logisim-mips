@@ -1,5 +1,4 @@
 .text
-addi $sp, $zero, 12
 j main
 sum:
 	addi $sp, $sp, -2
@@ -25,7 +24,6 @@ sum:
 
 main:
 lw $a0, num
-#addi $a0, $zero, 10
 
 jal sum
 

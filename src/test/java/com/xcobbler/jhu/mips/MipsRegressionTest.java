@@ -21,6 +21,7 @@ import com.xcobbler.jhu.logisim.Check;
 import com.xcobbler.jhu.logisim.CircSimulation;
 import com.xcobbler.jhu.logisim.EndReached;
 import com.xcobbler.jhu.logisim.RegCheck;
+import com.xcobbler.jhu.logisim.SimResult;
 
 @RunWith(Parameterized.class)
 public class MipsRegressionTest {
@@ -131,7 +132,8 @@ public class MipsRegressionTest {
     return ret;
   }
 
-  @Test(timeout = 3000)
+  @Test
+//  @Test(timeout = 3000)
   public void test() {
     MipsParser parser = new MipsParser();
     MipsParserResult res = parser.parse(asmContents);
@@ -142,8 +144,11 @@ public class MipsRegressionTest {
 
     CircSimulation sim = new CircSimulation(new File("mips.circ"), res.getProgram(), res.getData());
 
-    sim.run(new EndReached());
-
+    SimResult runRes = sim.run(new EndReached());
+    
+    System.out.println("cycles = " + runRes.getCycles());
+    
+    
     String err = "";
 
     for (Check c : checks) {

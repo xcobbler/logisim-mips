@@ -1,0 +1,9 @@
+.text
+addi $t0, $zero, 1
+
+.assert
+$t0 = 1
+$gp = 2042096
+$sp = 16777216
+$pc = 1
+$fp = 0

@@ -41,8 +41,9 @@ public class CircSimulation {
   private Map<String, Component> registers = new HashMap<String, Component>();
   private Map<String, Component> circuitMap = new HashMap<String, Component>();
   private Project project;
-
-//  private List<File> tempFiles = new ArrayList<File>();
+  private static final int PROGRAM_POINTER = 0;
+  private static final int GLOBAL_POINTER = 2042096;
+  private static final int STACK_POINTER = 16777216;
 
   public CircSimulation(File circ, MipsProgram program, MipsData data) {
     this.circ = circ;
@@ -124,7 +125,23 @@ public class CircSimulation {
           }
         }
       }
+
 //    System.out.println("end init");
+
+    // set initial register values
+    // TODO ugly hack to force the sub circuit (register block) to have non-null data
+    // this may force the circuit to run 0x00000000 ... but in mips this is shift left logical of the zero register
+    // and the result stored in the zero register (which should not be allowed)
+    project.getSimulator().tick();
+    try {
+      Thread.sleep(100);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    setValue("pc", PROGRAM_POINTER);
+    setValue("gp", GLOBAL_POINTER);
+    setValue("sp", STACK_POINTER);
 
       if (rams.size() == 2) {
         // the RAM closest to the clock is assumed to the program RAM and the other is the data
@@ -213,6 +230,28 @@ public class CircSimulation {
     }
   }
 
+  public void setValue(String name, int value) {
+    Component reg = registers.get(name);
+    if (reg != null) {
+      Object data = project.getCircuitState().getData(reg);
+      if (data == null && circuitMap.containsKey(name)) {
+        data = ((CircuitState) project.getCircuitState().getData(circuitMap.get(name))).getData(reg);
+      }
+
+      if (data != null) {
+        try {
+          Method method = data.getClass().getMethod("setValue", int.class);
+          method.setAccessible(true);
+          method.invoke(data, value);
+        } catch (Exception e) {
+          throw new SimulationException(e);
+        }
+      }
+    } else {
+      throw new SimulationException("There is no register with the name [" + name + "]");
+    }
+  }
+
   public int getProgramEnd() {
     return program.getWords().size();
   }
@@ -223,7 +262,7 @@ public class CircSimulation {
 //    long prev = System.currentTimeMillis();
     while (true) {
       if (doTick.compareAndSet(true, false)) {
-        long end = System.currentTimeMillis();
+//        long end = System.currentTimeMillis();
 //        System.out.println("tick = " + (end - prev));
         
         if (cond.shouldStop(this)) {
@@ -235,14 +274,14 @@ public class CircSimulation {
         tickCount++;
       }
     }
-    return new SimResult((tickCount - 1) / 2);
+    return new SimResult((tickCount) / 2);
   }
 
-  public void reset(MipsProgram program, MipsData data) throws LoadFailedException {
-    this.program = program;
-    this.data = data;
-    init();
-  }
+//  public void reset(MipsProgram program, MipsData data) throws LoadFailedException {
+//    this.program = program;
+//    this.data = data;
+//    init();
+//  }
 
   private List<Component> sortRams(List<Component> rams, Component clock){
     List<Component> ret = new ArrayList<Component>();
