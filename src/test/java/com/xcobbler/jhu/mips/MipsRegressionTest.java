@@ -132,8 +132,8 @@ public class MipsRegressionTest {
     return ret;
   }
 
-  @Test
-//  @Test(timeout = 3000)
+//  @Test
+  @Test(timeout = 3000)
   public void test() {
     MipsParser parser = new MipsParser();
     MipsParserResult res = parser.parse(asmContents);

@@ -1,5 +1,11 @@
 package com.xcobbler.jhu.logisim;
 
+/**
+ * Verifies a register's value
+ * 
+ * @author Xavier Coble
+ *
+ */
 public class RegCheck implements Check {
   private String regName;
   private int expectedValue;

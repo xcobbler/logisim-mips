@@ -20,6 +20,13 @@ import com.xcobbler.jhu.mips.parser.LoadWordParser;
 import com.xcobbler.jhu.mips.parser.Parser;
 import com.xcobbler.jhu.mips.parser.ShiftParser;
 
+/**
+ * 
+ * Converts MIPS program into machine code
+ * 
+ * @author Xavier Coble
+ *
+ */
 public class MipsParser {
 
   private static final Map<String, Parser> PARSERS = new HashMap<String, Parser>();

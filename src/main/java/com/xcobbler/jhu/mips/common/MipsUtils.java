@@ -3,6 +3,13 @@ package com.xcobbler.jhu.mips.common;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 
+ * Holds utility functions
+ * 
+ * @author Xavier Coble
+ *
+ */
 public class MipsUtils {
   private static final Map<String, Integer> REGISTERS = new HashMap<String, Integer>();
   private static final Map<String, String> R_FUNCTIONS = new HashMap<String, String>();

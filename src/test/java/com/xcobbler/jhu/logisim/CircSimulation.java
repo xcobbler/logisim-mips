@@ -32,6 +32,12 @@ import com.xcobbler.jhu.mips.MipsData;
 import com.xcobbler.jhu.mips.MipsProgram;
 import com.xcobbler.jhu.mips.MipsWords;
 
+/**
+ * Represents a logisim circuit executing a MIPs program
+ * 
+ * @author Xavier Coble
+ *
+ */
 public class CircSimulation {
   private File circ;
   private MipsProgram program;
@@ -65,40 +71,39 @@ public class CircSimulation {
 
     Simulator sim = project.getSimulator();
     sim.setTickFrequency(4000);
-//    try {
 
-      CircuitState state = project.getCircuitState();
+    CircuitState state = project.getCircuitState();
 
-      Circuit circ = state.getCircuit();
+    Circuit circ = state.getCircuit();
 
-      Component clock = null;
+    Component clock = null;
 
-      Set<Component> nonwires = circ.getNonWires();
+    Set<Component> nonwires = circ.getNonWires();
 
-      List<Component> rams = new ArrayList<Component>();
-//    System.out.println("start init");
+    List<Component> rams = new ArrayList<Component>();
+    // System.out.println("start init");
     // prevents loops - you only need to visit subcircuits once to get registers
     Set<String> foundSubcircuits = new HashSet<String>();
-      if (nonwires != null) {
-        for (Component c : nonwires) {
-//          System.out.println("component = " + c);
-//        System.out.println("fac = " + c.getFactory());
-          if (c.getFactory() != null) {
-//          System.out.println("factory = " + c.getFactory().getName());
-            if ("RAM".equals(c.getFactory().getName())) {
-              rams.add(c);
-            } else if ("Register".equals(c.getFactory().getName())) {
-              Object label = state.getInstanceState(c).getAttributeValue(c.getAttributeSet().getAttribute("label"));
+    if (nonwires != null) {
+      for (Component c : nonwires) {
+        // System.out.println("component = " + c);
+        // System.out.println("fac = " + c.getFactory());
+        if (c.getFactory() != null) {
+          // System.out.println("factory = " + c.getFactory().getName());
+          if ("RAM".equals(c.getFactory().getName())) {
+            rams.add(c);
+          } else if ("Register".equals(c.getFactory().getName())) {
+            Object label = state.getInstanceState(c).getAttributeValue(c.getAttributeSet().getAttribute("label"));
 
-              registers.put(String.valueOf(label), c);
-//            circuitMap.put(String.valueOf(label), state);
-            } else if("Clock".equals(c.getFactory().getName())) {
-              if(clock != null) {
-                Location l1 = clock.getLocation();
-                Location l2 = c.getLocation();
-                throw new SimulationException("Ciruit has multiple clocks! first: " + l1 + "  second: " + l2);
-              }
-              clock = c;
+            registers.put(String.valueOf(label), c);
+            // circuitMap.put(String.valueOf(label), state);
+          } else if ("Clock".equals(c.getFactory().getName())) {
+            if (clock != null) {
+              Location l1 = clock.getLocation();
+              Location l2 = c.getLocation();
+              throw new SimulationException("Ciruit has multiple clocks! first: " + l1 + "  second: " + l2);
+            }
+            clock = c;
           } else if (c.getFactory() instanceof SubcircuitFactory) {
             if (!foundSubcircuits.contains(c.getFactory().getName())) {
               foundSubcircuits.add(c.getFactory().getName());
@@ -109,24 +114,17 @@ public class CircSimulation {
                 if ("Register".equals(c2.getFactory().getName())) {
                   Object label = state.getInstanceState(c2)
                       .getAttributeValue(c2.getAttributeSet().getAttribute("label"));
-//                  System.out.println("nested reg = " + String.valueOf(label));
+                  // System.out.println("nested reg = " + String.valueOf(label));
                   registers.put(String.valueOf(label), c2);
                   circuitMap.put(String.valueOf(label), c);
                 }
               }
 
-//              System.out.println();
-//              Instance inst = state.getInstanceState(c).getInstance();
-//              Attribute<?> source = inst.getAttributeSet().getAttribute("source");
-//              System.out.println();
-//            registers.put(String.valueOf(label), c);
             }
-          }
           }
         }
       }
-
-//    System.out.println("end init");
+    }
 
     // set initial register values
     // ugly hack to force the sub circuit (register block) to have non-null data
@@ -151,31 +149,28 @@ public class CircSimulation {
     setValue("gp", GLOBAL_POINTER);
     setValue("sp", STACK_POINTER);
 
-      if (rams.size() == 2) {
-        // the RAM closest to the clock is assumed to the program RAM and the other is the data
-        rams = sortRams(rams, clock);
+    if (rams.size() == 2) {
+      // the RAM closest to the clock is assumed to the program RAM and the other is the data
+      rams = sortRams(rams, clock);
 
-        loadRam(rams.get(0), program);
-        // TODO load all zeros for null
-        if (data != null) {
-          loadRam(rams.get(1), data);
-        }
-
-      } else {
-        throw new SimulationException("expected the number of RAM elements to 2, but got: " + rams.size());
+      loadRam(rams.get(0), program);
+      // not needed to load zeros when null, because logisim will do this for us
+      if (data != null) {
+        loadRam(rams.get(1), data);
       }
 
-
-//      System.out.println("end");
-//    } finally {
-//      sim.shutDown();
-//    }
+    } else {
+      throw new SimulationException("expected the number of RAM elements to 2, but got: " + rams.size());
+    }
 
     // all registers get the value 0
     // find program text RAM and load it
     // find program data RAM and load it
   }
 
+  /**
+   * only works for registers inside the main circuit
+   */
   public void printRegisters() {
 
     CircuitState state = project.getCircuitState();
@@ -212,6 +207,11 @@ public class CircSimulation {
     }
   }
 
+  /**
+   * 
+   * @param The name the name of the register
+   * @return The value of the register
+   */
   public int getValue(String name) {
     Component reg = registers.get(name);
     if (reg != null) {
@@ -237,6 +237,11 @@ public class CircSimulation {
     }
   }
 
+  /**
+   * 
+   * @param name  The name of the register to set
+   * @param value The value to set
+   */
   public void setValue(String name, int value) {
     Component reg = registers.get(name);
     if (reg != null) {
@@ -266,16 +271,16 @@ public class CircSimulation {
   public SimResult run(StopCondition cond) {
     // TODO should limit the program to like 3 seconds
     long tickCount = 0;
-//    long prev = System.currentTimeMillis();
+    // long prev = System.currentTimeMillis();
     while (true) {
       if (doTick.compareAndSet(true, false)) {
-//        long end = System.currentTimeMillis();
-//        System.out.println("tick = " + (end - prev));
-        
+        // long end = System.currentTimeMillis();
+        // System.out.println("tick = " + (end - prev));
+
         if (cond.shouldStop(this)) {
           break;
         }
-//        prev = System.currentTimeMillis();
+        // prev = System.currentTimeMillis();
         // perform step
         project.getSimulator().tick();
         tickCount++;
@@ -284,22 +289,25 @@ public class CircSimulation {
     return new SimResult((tickCount) / 2);
   }
 
-//  public void reset(MipsProgram program, MipsData data) throws LoadFailedException {
-//    this.program = program;
-//    this.data = data;
-//    init();
-//  }
+  // public void reset(MipsProgram program, MipsData data) throws LoadFailedException {
+  // this.program = program;
+  // this.data = data;
+  // init();
+  // }
 
+  /**
+   * Sort the RAMs relative to the location to the clock. closest RAMs listed first
+   */
   private List<Component> sortRams(List<Component> rams, Component clock){
     List<Component> ret = new ArrayList<Component>();
-    
+
     ret.addAll(rams);
-    
+
     ret.sort((a, b) -> (int) (LineUtil.distance(a.getLocation().getX(), a.getLocation().getY(),
         clock.getLocation().getX(), clock.getLocation().getY())
         - LineUtil.distance(b.getLocation().getX(), b.getLocation().getY(), clock.getLocation().getX(),
             clock.getLocation().getY())));
-    
+
     return ret;
   }
 
@@ -311,12 +319,12 @@ public class CircSimulation {
       List<String> formated = new ArrayList<String>(words.getWords());
       // see: http://www.cburch.com/logisim/docs/2.7/en/html/guide/mem/menu.html
       formated.add(0, "v2.0 raw");
-      
+
       Path temp = Files.createTempFile("ram-" + System.nanoTime(), null);
       File tempFile = temp.toFile();
       tempFile.deleteOnExit();
       Files.write(temp, formated, StandardOpenOption.WRITE);
-      
+
       Method method = ramFactory.getClass().getMethod("loadImage", InstanceState.class, File.class);
       method.setAccessible(true);
       method.invoke(ramFactory, ramState, tempFile);
@@ -329,15 +337,15 @@ public class CircSimulation {
   private final SimulatorListener listener = new SimulatorListener() {
 
     public void tickCompleted(SimulatorEvent e) {
-//      System.out.println("tickCompleted: " + new Date());
+      // System.out.println("tickCompleted: " + new Date());
     }
 
     public void simulatorStateChanged(SimulatorEvent e) {
-//      System.out.println("simulatorStateChanged: " + new Date());
+      // System.out.println("simulatorStateChanged: " + new Date());
     }
 
     public void propagationCompleted(SimulatorEvent e) {
-//      System.out.println("propagationCompleted: " + new Date());
+      // System.out.println("propagationCompleted: " + new Date());
       doTick.set(true);
     }
   };

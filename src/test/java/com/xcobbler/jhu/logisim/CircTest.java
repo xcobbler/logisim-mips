@@ -15,6 +15,12 @@ import org.junit.runners.Parameterized;
 import com.xcobbler.jhu.mips.MipsData;
 import com.xcobbler.jhu.mips.MipsProgram;
 
+/**
+ * Tests machine codes vs a given logisim circuit
+ * 
+ * @author Xavier Coble
+ *
+ */
 @RunWith(Parameterized.class)
 public class CircTest {
   //@formatter:off
@@ -242,8 +248,8 @@ public class CircTest {
 
   private static final String circPath = "C:\\Users\\xavie\\Google Drive\\jhu\\01_comp_arch\\project\\logisim-mips\\mips.circ";
 
-  @Test
-//  @Test(timeout = 3000)
+//  @Test
+  @Test(timeout = 3000)
   public void test() {
     System.out.println("\nstart " + this.testName + ":");
     MipsData data = null;
