@@ -246,8 +246,6 @@ public class CircTest {
   }
   //@formatter:on
 
-  private static final String circPath = "C:\\Users\\xavie\\Google Drive\\jhu\\01_comp_arch\\project\\logisim-mips\\mips.circ";
-
 //  @Test
   @Test(timeout = 3000)
   public void test() {
@@ -263,7 +261,7 @@ public class CircTest {
       System.out.println(s);
     }
 
-    CircSimulation sim = new CircSimulation(new File(circPath), new MipsProgram(32, program), data);
+    CircSimulation sim = new CircSimulation(new File("mips.circ"), new MipsProgram(32, program), data);
 
     long end = System.currentTimeMillis();
 //    System.out.println(testName + " sim = " + (end - start));
