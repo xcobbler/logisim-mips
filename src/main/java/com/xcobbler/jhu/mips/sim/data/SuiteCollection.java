@@ -10,20 +10,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class TestCollection {
+public class SuiteCollection {
   @XmlElement
   private String name;
   @XmlElement
   private String date;
-  @XmlElement
-  private String circFile;
-  @XmlElement(name = "test")
-  @XmlElementWrapper(name = "tests")
-  private List<TestResult> tests;
+  @XmlElement(name = "suite")
+  @XmlElementWrapper(name = "suites")
+  private List<TestSuite> suites;
 
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
@@ -36,17 +35,11 @@ public class TestCollection {
     this.date = date;
   }
 
-  public String getCircFile() {
-    return circFile;
+  public List<TestSuite> getSuites() {
+    return suites;
   }
 
-  public void setCircFile(String circFile) {
-    this.circFile = circFile;
-  }
-  public List<TestResult> getTests() {
-    return tests;
-  }
-  public void setTests(List<TestResult> tests) {
-    this.tests = tests;
+  public void setSuites(List<TestSuite> suites) {
+    this.suites = suites;
   }
 }
