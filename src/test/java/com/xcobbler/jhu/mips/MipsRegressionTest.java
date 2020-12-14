@@ -17,11 +17,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import com.xcobbler.jhu.logisim.Check;
-import com.xcobbler.jhu.logisim.CircSimulation;
-import com.xcobbler.jhu.logisim.EndReached;
-import com.xcobbler.jhu.logisim.RegCheck;
-import com.xcobbler.jhu.logisim.SimResult;
+import com.xcobbler.jhu.mips.sim.Check;
+import com.xcobbler.jhu.mips.sim.CircSimulation;
+import com.xcobbler.jhu.mips.sim.EndReached;
+import com.xcobbler.jhu.mips.sim.RegCheck;
+import com.xcobbler.jhu.mips.sim.SimResult;
 
 @RunWith(Parameterized.class)
 public class MipsRegressionTest {

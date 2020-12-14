@@ -1,4 +1,4 @@
-package com.xcobbler.jhu.logisim;
+package com.xcobbler.jhu.mips.sim;
 
 /**
  * Determines if the program should stop based on the value of the pc register

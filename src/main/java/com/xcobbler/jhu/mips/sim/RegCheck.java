@@ -1,4 +1,4 @@
-package com.xcobbler.jhu.logisim;
+package com.xcobbler.jhu.mips.sim;
 
 /**
  * Verifies a register's value

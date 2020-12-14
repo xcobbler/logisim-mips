@@ -1,4 +1,4 @@
-package com.xcobbler.jhu.logisim;
+package com.xcobbler.jhu.mips.sim;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,6 +14,11 @@ import org.junit.runners.Parameterized;
 
 import com.xcobbler.jhu.mips.MipsData;
 import com.xcobbler.jhu.mips.MipsProgram;
+import com.xcobbler.jhu.mips.sim.Check;
+import com.xcobbler.jhu.mips.sim.CircSimulation;
+import com.xcobbler.jhu.mips.sim.EndReached;
+import com.xcobbler.jhu.mips.sim.RegCheck;
+import com.xcobbler.jhu.mips.sim.SimResult;
 
 /**
  * Tests machine codes vs a given logisim circuit

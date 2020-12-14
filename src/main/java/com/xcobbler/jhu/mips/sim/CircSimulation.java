@@ -1,4 +1,4 @@
-package com.xcobbler.jhu.logisim;
+package com.xcobbler.jhu.mips.sim;
 
 import java.io.File;
 import java.lang.reflect.Method;

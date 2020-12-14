@@ -1,4 +1,4 @@
-package com.xcobbler.jhu.logisim;
+package com.xcobbler.jhu.mips.sim;
 
 public interface StopCondition {
   boolean shouldStop(CircSimulation circ);

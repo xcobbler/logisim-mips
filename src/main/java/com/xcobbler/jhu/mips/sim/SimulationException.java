@@ -1,4 +1,4 @@
-package com.xcobbler.jhu.logisim;
+package com.xcobbler.jhu.mips.sim;
 
 public class SimulationException extends RuntimeException {
   private static final long serialVersionUID = 1L;
