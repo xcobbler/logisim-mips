@@ -64,6 +64,7 @@ public class MipsUtils {
     R_FUNCTIONS.put("srl", "02");
     R_FUNCTIONS.put("sub", "22");
     R_FUNCTIONS.put("subu", "23");
+    R_FUNCTIONS.put("syscall", "0c");
   }
 
   static {

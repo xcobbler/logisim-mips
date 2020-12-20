@@ -22,7 +22,7 @@ import com.xcobbler.jhu.mips.MipsProgram;
  *
  */
 @RunWith(Parameterized.class)
-public class CircTest {
+public class ExactMipsCircTest {
   //@formatter:off
   @Parameterized.Parameters(name = "{index} - {0}")
   public static Collection<Object[]> testCases() {
@@ -261,7 +261,7 @@ public class CircTest {
       System.out.println(s);
     }
 
-    CircSimulation sim = new CircSimulation(new File("mips.circ"), new MipsProgram(32, program), data, false);
+    CircSimulation sim = new CircSimulation(new File("mips.circ"), new MipsProgram(32, program), data, true);
 
     long end = System.currentTimeMillis();
 //    System.out.println(testName + " sim = " + (end - start));
@@ -388,7 +388,7 @@ public class CircTest {
   private List<String> data;
   private List<Check> checks;
 
-  public CircTest(String testName, List<String> program, List<String> data, List<Check> checks) {
+  public ExactMipsCircTest(String testName, List<String> program, List<String> data, List<Check> checks) {
     this.testName = testName;
     this.program = program;
     this.data = data;

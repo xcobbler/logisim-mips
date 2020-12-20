@@ -26,14 +26,14 @@ import com.xcobbler.jhu.mips.sim.RegCheck;
 import com.xcobbler.jhu.mips.sim.SimResult;
 
 @RunWith(Parameterized.class)
-public class MipsRegressionTest {
+public class ExactMipsRegressionTest {
 
   @SuppressWarnings("unused")
   private String textName = null;
   private String asmContents = null;
   private List<Check> checks = null;
 
-  public MipsRegressionTest(String testName, String asmContents, List<Check> checks) {
+  public ExactMipsRegressionTest(String testName, String asmContents, List<Check> checks) {
     this.textName = testName;
     this.asmContents = asmContents;
     this.checks = checks;
@@ -44,12 +44,12 @@ public class MipsRegressionTest {
   public static Collection<Object[]> testCases() throws IOException {
     Collection<Object[]> ret = new ArrayList<Object[]>();
 
-    File baseDir = new File("src/test/resources/regression");
+    File baseDir = new File("src/test/resources/exact-regression");
 
     String[] asmFiles = baseDir.list((f, n) -> n.endsWith(".txt"));
 
     for (String f : asmFiles) {
-      File asmFile = new File("src/test/resources/regression/" + f);
+      File asmFile = new File("src/test/resources/exact-regression/" + f);
 
       String asm = new String(Files.readAllBytes(asmFile.toPath()));
       if(asm.contains(".assert")) {
@@ -144,7 +144,7 @@ public class MipsRegressionTest {
     res.getProgram().getWords().stream().forEach(System.out::println);
     System.out.println("end: " + textName);
 
-    CircSimulation sim = new CircSimulation(new File("mips.circ"), res.getProgram(), res.getData(), false);
+    CircSimulation sim = new CircSimulation(new File("mips.circ"), res.getProgram(), res.getData(), true);
 
     SimResult runRes = sim.run(new MultiStopCondition(Arrays.asList(new EndReached(), new ExitSyscall())));
     

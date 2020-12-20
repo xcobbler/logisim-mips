@@ -47,15 +47,37 @@ public class CircSimulation {
   private Map<String, Component> registers = new HashMap<String, Component>();
   private Map<String, Component> circuitMap = new HashMap<String, Component>();
   private Project project;
+  private static final int MIPS_PC_START = 4194304;
   private static final int PROGRAM_POINTER = 0;
   private static final int GLOBAL_POINTER = 2042096;
   private static final int STACK_POINTER = 16777216;
 
-  public CircSimulation(File circ, MipsProgram program, MipsData data) {
+  public CircSimulation(File circ, MipsProgram program, MipsData data, boolean useExactMips) {
     this.circ = circ;
     this.program = program;
     this.data = data;
     init();
+  }
+
+  /**
+   * 
+   * @return the hex instruction
+   */
+  public String getPreviousInstruction() {
+    int pc = getValue("pc");
+
+    // TODO handle increment by 4 or 1...
+    pc = pc - PROGRAM_POINTER;
+    if (pc > 0) {
+      pc = pc - 1;
+    }
+
+    if (pc < program.getWords().size()) {
+      return program.getWords().get(pc);
+    } else {
+      throw new RuntimeException("pc value [" + pc + "] is larger than the program size: " + program.getWords().size());
+    }
+
   }
 
   private void init() {

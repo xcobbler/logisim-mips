@@ -19,6 +19,7 @@ import com.xcobbler.jhu.mips.parser.JumpRegisterParser;
 import com.xcobbler.jhu.mips.parser.LoadWordParser;
 import com.xcobbler.jhu.mips.parser.Parser;
 import com.xcobbler.jhu.mips.parser.ShiftParser;
+import com.xcobbler.jhu.mips.parser.SyscallParser;
 
 /**
  * 
@@ -47,6 +48,7 @@ public class MipsParser {
     PARSERS.put("srl", COMMON_R);
     PARSERS.put("sub", COMMON_R);
 //    PARSERS.put("subu", COMMON_R);
+    PARSERS.put("syscall", new SyscallParser());
 
     PARSERS.put("addi", COMMON_I);
 //    PARSERS.put("addiu", COMMON_I);
