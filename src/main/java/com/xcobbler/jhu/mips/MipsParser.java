@@ -30,12 +30,16 @@ import com.xcobbler.jhu.mips.parser.SyscallParser;
  */
 public class MipsParser {
 
-  private static final Map<String, Parser> PARSERS = new HashMap<String, Parser>();
-  private static final Parser COMMON_R = new CommonRParser();
-  private static final Parser SHIFT = new ShiftParser();
-  private static final Parser COMMON_I = new CommonIParser();
+  private final Map<String, Parser> PARSERS = new HashMap<String, Parser>();
+  private final Parser COMMON_R = new CommonRParser();
+  private final Parser SHIFT = new ShiftParser();
+  private final Parser COMMON_I = new CommonIParser();
 
-  static {
+  public MipsParser(boolean exactMips) {
+    initParsers(exactMips);
+  }
+
+  private void initParsers(boolean exactMips) {
     PARSERS.put("add", COMMON_R);
 //    PARSERS.put("addu", COMMON_R);
     PARSERS.put("and", COMMON_R);
@@ -68,8 +72,8 @@ public class MipsParser {
 //    PARSERS.put("sh", COMMON_I);
     PARSERS.put("sw", new LoadWordParser());
 
-    PARSERS.put("j", new JumpParser());
-    PARSERS.put("jal", new JalParser());
+    PARSERS.put("j", new JumpParser(exactMips));
+    PARSERS.put("jal", new JalParser(exactMips));
   }
 
   public MipsParserResult parse(String contents) {

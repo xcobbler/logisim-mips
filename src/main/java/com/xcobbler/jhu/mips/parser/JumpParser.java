@@ -8,12 +8,19 @@ import com.xcobbler.jhu.mips.common.MipsUtils;
 import com.xcobbler.jhu.mips.common.ParseException;
 
 public class JumpParser implements JParser {
+  private static final int TEXT_START = 1048576;
+
+  private boolean exactMips;
+
+  public JumpParser(boolean exactMips) {
+    this.exactMips = exactMips;
+  }
 
   @Override
   public String parse(long lineNum, List<String> parts, Map<String, Integer> labels, Map<String, Data> data) {
     return MipsUtils.binariesToHex32(
         MipsUtils.hex6ToBin(getOpCode(lineNum, parts, labels, data)),
-        MipsUtils.hex26ToBin(getAddress(lineNum, parts, labels, data))
+        getAddress(lineNum, parts, labels, data)
         );
   }
 
@@ -26,7 +33,11 @@ public class JumpParser implements JParser {
     Integer j = labels.get(parts.get(1));
 
     if (j != null) {
-      return MipsUtils.decimalToHex26(String.valueOf(j));
+      if (exactMips) {
+//        j *= 4;
+        j += TEXT_START;
+      }
+      return MipsUtils.decimalToBin26(String.valueOf(j));
     }
     throw new ParseException("only handling labels for now");
   }

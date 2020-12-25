@@ -219,6 +219,14 @@ public class MipsUtils {
     return ret;
   }
 
+  public static String decimalToBin26(String decimal) {
+    String ret = Long.toBinaryString(Long.valueOf(decimal, 10));
+    while (ret.length() < 26) {
+      ret = "0" + ret;
+    }
+    return ret;
+  }
+
   public static String decimalToHex16(String decimal) {
     String ret = Long.toHexString(Long.valueOf(decimal, 10));
     while (ret.length() < 4) {

@@ -57,7 +57,7 @@ public class ExactMipsParserTest {
 
   @Test
   public void test() {
-    MipsParser parser = new MipsParser();
+    MipsParser parser = new MipsParser(true);
     MipsParserResult res = parser.parse(asmContents);
 
     List<String> instructions = res.getProgram().getWords();
@@ -68,8 +68,8 @@ public class ExactMipsParserTest {
     List<String> dataWords = Arrays.asList(expectedData.split("\n")).stream().map(s -> s.trim())
         .filter(s -> !s.isEmpty()).collect(Collectors.toList());
     
-    Assert.assertEquals(programWords, instructions);
-    Assert.assertEquals(dataWords, data);
+    Assert.assertEquals(String.join("\n", programWords), String.join("\n", instructions));
+    Assert.assertEquals(String.join("\n", dataWords), String.join("\n", data));
   }
 
 }

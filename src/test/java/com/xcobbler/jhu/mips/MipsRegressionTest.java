@@ -137,7 +137,7 @@ public class MipsRegressionTest {
 //  @Test
   @Test(timeout = 3000)
   public void test() {
-    MipsParser parser = new MipsParser();
+    MipsParser parser = new MipsParser(false);
     MipsParserResult res = parser.parse(asmContents);
 
     System.out.println("\nstart: " + textName);

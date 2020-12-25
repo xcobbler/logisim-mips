@@ -12,7 +12,7 @@ public class CommonJParser implements JParser {
   public String parse(long lineNum, List<String> parts, Map<String, Integer> labels, Map<String, Data> data) {
     return MipsUtils.binariesToHex32(
         MipsUtils.hex6ToBin(getOpCode(lineNum, parts, labels, data)),
-        MipsUtils.hex26ToBin(getAddress(lineNum, parts, labels, data)));
+        getAddress(lineNum, parts, labels, data));
   }
   
   @Override
@@ -22,6 +22,6 @@ public class CommonJParser implements JParser {
 
   @Override
   public String getAddress(long lineNum, List<String> parts, Map<String, Integer> labels, Map<String, Data> data) {
-    return "0";
+    return "00000000000000000000000000";
   }
 }
