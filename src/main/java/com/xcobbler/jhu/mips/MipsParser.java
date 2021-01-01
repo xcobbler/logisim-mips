@@ -17,6 +17,7 @@ import com.xcobbler.jhu.mips.parser.JalParser;
 import com.xcobbler.jhu.mips.parser.JumpParser;
 import com.xcobbler.jhu.mips.parser.JumpRegisterParser;
 import com.xcobbler.jhu.mips.parser.LoadWordParser;
+import com.xcobbler.jhu.mips.parser.MipsLoadWordParser;
 import com.xcobbler.jhu.mips.parser.Parser;
 import com.xcobbler.jhu.mips.parser.ShiftParser;
 import com.xcobbler.jhu.mips.parser.SyscallParser;
@@ -63,7 +64,7 @@ public class MipsParser {
 //    PARSERS.put("lhu", COMMON_I);
 //    PARSERS.put("ll", COMMON_I);
 //    PARSERS.put("lui", COMMON_I);
-    PARSERS.put("lw", new LoadWordParser());
+    PARSERS.put("lw", exactMips ? new MipsLoadWordParser() : new LoadWordParser());
     PARSERS.put("ori", COMMON_I);
     PARSERS.put("slti", COMMON_I);
 //    PARSERS.put("sltiu", COMMON_I);
@@ -84,6 +85,7 @@ public class MipsParser {
 
     // line count - comments, blank lines, labels
     int lineNum = 0;
+    int dataNum = 0;
     boolean parsingText = true;
     List<String> programWords = new ArrayList<String>();
     List<String> dataWords = new ArrayList<String>();
@@ -118,7 +120,8 @@ public class MipsParser {
         }
       } else {
         if (parts.size() == 2) {
-          data.put(first, new Data(lineNum, MipsUtils.decimalToHex32(parts.get(1))));
+          data.put(first, new Data(dataNum, MipsUtils.decimalToHex32(parts.get(1))));
+          dataNum++;
         }
       }
       lineNum++;
@@ -150,7 +153,7 @@ public class MipsParser {
           Parser parser = PARSERS.get(first);
           if (parser != null) {
             String instr = parser.parse(lineNum, parts, textLabels, data);
-            programWords.add(instr);
+            programWords.addAll(Arrays.asList(instr.split("\n")));
           } else {
             throw new ParseException("There is no parser configured for: " + first);
           }
